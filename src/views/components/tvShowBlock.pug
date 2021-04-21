@@ -1,0 +1,22 @@
+mixin tvShow(tvShow) 
+    a(class=`tv-show ${tvShow.id} mr-8`, href=routes.tvShowDetail(tvShow.id)) 
+        .poster.relative.w-44 
+            if tvShow.poster_path 
+                img(class="poster-width poster-height rounded-2xl", src=`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`, alt="Poster Image") 
+            else 
+                img(class="poster-width poster-height rounded-2xl", src="/contents/nullPoster.png", alt="Null Poster")
+            if tvShow.adult 
+                img(class="absolute rounded-full shadow-md -right-1 -bottom-1 w-14", src="/contents/forAdult.png", alt="For Adult")
+        .title 
+            if !tvShow.name && tvShow.title 
+                h2 #{tvShow.title.length >= 18 ? `${tvShow.title.slice(0, 18).trim()}...`  : tvShow.title}
+            else if !tvShow.title && tvShow.name 
+                h2 #{tvShow.name.length >= 18 ? `${tvShow.name.slice(0, 18).trim()}...`  : tvShow.name}
+            else 
+                h2 "Unknown"
+            if !tvShow.first_air_date && tvShow.release_date 
+                small Released At : #{tvShow.release_date.split("-").join(".")}
+            else if !tvShow.release_date && tvShow.first_air_date 
+                small First Aired At : #{tvShow.first_air_date.split("-").join(".")}
+            else 
+                small "Unknown"

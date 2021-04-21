@@ -1,0 +1,48 @@
+extends base
+
+block content 
+    if episode.still_path 
+        img(src=`https://image.tmdb.org/t/p/w500${episode.still_path}`, alt="Still Image") 
+    else 
+        img(src="/contents/nullBackdrop.png", alt="Null Still")
+    h1 #{episode.name || '"Unknown"'}
+    small #{episode.air_date ? episode.air_date : '"Unknown"'}
+    .video_average.relative 
+            svg(class="relative", xmlns="http://www.w3.org/2000/svg", width="85", height="85", fill="none") 
+                circle(class=`text-mg-${parseInt((episode.vote_average * 10) / 10)} transform translate-x-2 translate-y-2 stroke-current stroke-10`, cx="35", cy="35", r="35")
+            .range.absolute.top-8.left-7 
+                h2(class=`transform -translate-y-0.5 ${episode.vote_average * 10 === 100 ? "-translate-x-1" : episode.vote_average * 10 === 0 ? "translate-x-1" :  ""}`) #{episode.vote_average * 10}
+                    span %
+    p=episode.overview
+    .guest-stars.flex.flex-wrap 
+        h1.title.font-sans #{episode.guest_stars.length <= 1 ? "Guest Star" : "Guest Stars"}
+        if episode.guest_stars 
+            each star in episode.guest_stars 
+                .guest-stars.profile 
+                    .profile-image.flex.justify-center.items-center.w-24.h-28.rounded-xl.overflow-hidden 
+                        if star.profile_path 
+                            img(src=`https://image.tmdb.org/t/p/w500${star.profile_path}`, alt="Profile Image") 
+                        else 
+                            img(src="/contents/nullProfile.png", alt="Null Profile")
+                    h1=star.original_name
+                    small=star.character
+            else 
+                h1 Sorry, there's no guest star in history
+        else 
+            h1 Sorry, there's no guest star in history
+    .crews.flex.flex-wrap 
+        h1.title.font-sans #{episode.crew.length <= 1 ? "Crew" : "Crews"}
+        if episode.crew 
+            each crew in episode.crew 
+                .crew.profile 
+                    .profile-image.flex.justify-center.items-center.w-24.h-28.rounded-xl.overflow-hidden 
+                        if crew.profile_path 
+                            img(src=`https://image.tmdb.org/t/p/w500${crew.profile_path}`, alt="Profile Image") 
+                        else 
+                            img(src="/contents/nullProfile.png", alt="Null Profile")
+                    h1=crew.original_name
+                    small=crew.job
+            else 
+                h1 Sorry, there's no crew in history
+        else 
+            h1 Sorry, there's no crew in history

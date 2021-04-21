@@ -1,0 +1,20 @@
+extends base
+
+block content 
+    if !tvShow.backdrop_path 
+        img(src="/contents/nullBackdrop.png", alt="Null Backdrop")
+    else 
+        img(src=`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`, alt="Poster Image") 
+    .season
+        h1 #{tvShow.name || tvShows.title || '"Unknown"'} 
+        h2 Season #{season.episodes[0].season_number} / #{season.episodes.length <= 1 ? "Episode" : "Episodes"} : #{season.episodes.length} 
+        .episodes 
+            each episode in season.episodes 
+                a(class="item episode", href=routes.episodeDetail(tvShowId, episode.season_number, episode.episode_number)) 
+                    .still-image 
+                        if episode.still_path  
+                            img(src=`${`https://image.tmdb.org/t/p/w500${episode.still_path}` || "/contents/nullBackdrop.png"}`, alt="Still Image") 
+                        else 
+                            img(src="/contents/nullBackdrop.png", alt="Null Still")
+                    h1=episode.name
+                    small Episode #{episode.episode_number}

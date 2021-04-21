@@ -1,0 +1,25 @@
+extends base
+include components/movieBlock
+include components/tvShowBlock
+
+block content 
+    .popular-movies.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") Popular Movies
+        .movies-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in pMovies 
+                +movie(item)
+    .popular-tv-shows.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") Popular TV Shows
+        .tv-show-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in pTvs 
+                +tvShow(item)
+    .trending-movies.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") Trending Movies
+        .movies-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in tMovies 
+                +movie(item)
+    .trending-tv-shows.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") Trending TV Shows
+        .tv-show-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in tTvs 
+                +tvShow(item)

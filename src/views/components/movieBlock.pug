@@ -1,0 +1,22 @@
+mixin movie(movie) 
+    a(class=`movie mr-8`, href=`${movie.hasOwnProperty("video") ? routes.movieDetail(movie.id) : routes.tvShowDetail(movie.id)}`) 
+        .poster.relative.w-44.bg-black.rounded-2xl 
+            if movie.poster_path 
+                img(class="w-48 poster-width poster-height rounded-2xl", src=`https://image.tmdb.org/t/p/w500${movie.poster_path}`, alt="Poster Image") 
+            else 
+                img(class="w-48 poster-width poster-height rounded-2xl", src="/contents/nullPoster.png", alt="Null Poster")
+            if movie.adult 
+                img(class="absolute w-12 rounded-full shadow-md -right-1 -bottom-1", src="/contents/forAdult.png", alt="For Adult")
+        .title 
+            if !movie.name && movie.title 
+                h2 #{movie.title.length >= 18 ? `${movie.title.slice(0, 18).trim()}...`  : movie.title}
+            else if !movie.title && movie.name 
+                h2 #{movie.name.length >= 18 ? `${movie.name.slice(0, 18).trim()}...`  : movie.name}
+            else 
+                h2 "Unknown"
+            if !movie.first_air_date && movie.release_date 
+                small Released At : #{movie.release_date.split("-").join(".")}
+            else if !movie.release_date && movie.first_air_date 
+                small First Aired At : #{movie.first_air_date.split("-").join(".")}
+            else 
+                small "Unknown"

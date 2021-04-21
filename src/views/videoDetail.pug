@@ -1,0 +1,40 @@
+extends base
+
+block content 
+    div(class="backdrop flex justify-center items-center overflow-hidden] w-full h-full fixed top-0 left-0 -z-1") 
+        if !video.backdrop_path 
+            img(class="", src="/contents/nullBackdrop.png", alt="Null Backdrop")
+        else 
+            img(class="h-overflow max-w-none filter blur-md", src=`https://image.tmdb.org/t/p/w500${video.backdrop_path}`, alt="Poster Image") 
+    div(class="absolute w-2/3 min-h-full transform -translate-x-1/2 bg-white rounded-lg mt-52 left-1/2 detail-container") 
+        div(class="absolute overflow-hidden transform -translate-x-1/2 poster w-96 rounded-2xl -top-64 left-1/2 lg:translate-x-0 lg:left-4")
+            if !video.poster_path 
+                img(src="/contents/nullPoster.png", alt="Null Poster")
+            else 
+                img(src=`https://image.tmdb.org/t/p/w500${video.poster_path}`, alt="Poster Image") 
+            if video.adult 
+                img(class="absolute rounded-full shadow-md -right-1 -bottom-1 w-14", src="/contents/forAdult.png", alt="For Adult")
+        div(class="detail xs:p-4 xs:mt-80 lg:float-right lg:clear-right lg:mt-0") 
+            h1 #{video.title || video.name || '"Unknown"'}
+            small #{!video.first_air_date && video.release_date ? `Released At : ${video.release_date.split("-").join(".")}` : !video.release_date && video.first_air_date ? `First Aired At : ${video.first_air_date.split("-").join(".")}` : '"Unknown"'} 
+            small #{video.hasOwnProperty("video") ? "Movie" : "TV"}
+            .video_average.relative 
+                svg(class="relative", xmlns="http://www.w3.org/2000/svg", width="85", height="85", fill="none") 
+                    circle(class=`text-mg-${parseInt((video.vote_average * 10) / 10)} transform translate-x-2 translate-y-2 stroke-current stroke-10`, cx="35", cy="35", r="35")
+                .range.absolute.top-8.left-7 
+                    h2(class=`transform -translate-y-0.5 ${video.vote_average * 10 === 100 ? "-translate-x-1" : video.vote_average * 10 === 0 ? "translate-x-1" :  ""}`) #{video.vote_average * 10}
+                        span %
+            .genres 
+                each genre in video.genres 
+                    small.mr-4.genre=genre.name 
+            small #{!video.hasOwnProperty("video") ? "" : video.runtime < 60 ? `${video.runtime % 60}m` : video.runtime % 60 === 0 ? `${parseInt(video.runtime / 60)}h` : video.runtime ? `${parseInt(video.runtime / 60)}h ${video.runtime % 60}m` : '"Unknown"'}
+            p=video.overview
+            // For TV Show's Seasons
+            if !video.hasOwnProperty("video") 
+                .tv-show-seasons 
+                    if video.last_episode_to_air 
+                        - for (var i = 0; i < video.last_episode_to_air.season_number; i++)
+                            a(href=routes.seasonDetail(video.id, video.last_episode_to_air.season_number - i)) 
+                                h1 SEASON #{video.last_episode_to_air.season_number - i} 
+                    else 
+                        h1 "Unknown Season"

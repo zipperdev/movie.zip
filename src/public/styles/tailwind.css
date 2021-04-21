@@ -1,0 +1,25 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap');
+
+/* Tailwind CSS */
+@tailwind base;
+
+h1 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.font-sans {
+    font-family: 'Raleway', sans-serif !important;
+}
+
+.poster-width {
+    width: 176px;
+}
+
+.poster-height {
+    height: 264px;
+}
+
+@tailwind components;
+@tailwind utilities;

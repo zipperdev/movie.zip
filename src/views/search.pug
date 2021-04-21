@@ -1,0 +1,19 @@
+extends base
+include components/movieBlock
+include components/tvShowBlock
+
+block content 
+    .movies.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") Movies
+        .movies-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in movies 
+                +movie(item)
+            else 
+                span Sorry, there's nothing
+    .tv-shows.mx-5.my-8
+        h1(class="mb-2 font-sans text-2xl font-medium title") TV Shows
+        .tv-show-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200
+            each item in tvs 
+                +tvShow(item)
+            else 
+                span Sorry, there's nothing
