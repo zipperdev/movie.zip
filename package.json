@@ -16,10 +16,10 @@
     "cheerio": "^1.0.0-rc.6",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
     "postcss": "^8.2.10",
     "postcss-cli": "^8.3.1",
     "pug": "^3.0.2",
-    "request": "^2.88.2",
     "tailwind-scrollbar": "^1.2.4",
     "tailwindcss": "^2.1.1"
   },

@@ -1,11 +1,11 @@
 doctype html
-html(class="h-full", lang="en")
+html(lang="en")
     head
         meta(charset="UTF-8")
         link(rel="shortcut icon", href="/contents/favicon.ico", type="image/x-icon")
         link(rel="stylesheet", href="/styles/styles.css")
         title #{pageTitle} | #{appName}
-    body.bg-gray-100.h-full.flex.flex-col 
+    body.relative.bg-gray-100.h-full 
         aside.sidebar.hidden 
             a(class="logo main home", href=routes.home) 
                 img(class="w-32", src="/contents/short-logo.png", alt="Movie.ZIP")
@@ -21,7 +21,7 @@ html(class="h-full", lang="en")
                 a(href=routes.signup) Sign Up 
         #loading-page-element.w-full.h-full.flex.justify-center.items-center.fixed.top-0.left-0.z-10.bg-gray-100 
             h1(class="font-sans") Loading...
-        div(class="flex-grow hidden h-full content") 
+        div(class="hidden h-full content") 
             block content
         script(type='text/javascript').
             const contentEl = document.querySelector(".content");
