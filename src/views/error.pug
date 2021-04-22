@@ -1,6 +1,7 @@
 extends base
 
 block content 
-    h1 Sorry, there's error :(
-    if err 
-        span=err
+    .error.flex.justify-center.pt-10 
+        h1.block.font-roboto Sorry, there's error :(
+        if err 
+            span.font-roboto=err

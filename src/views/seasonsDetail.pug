@@ -1,20 +1,22 @@
 extends base
 
 block content 
-    if !tvShow.backdrop_path 
-        img(src="/contents/nullBackdrop.png", alt="Null Backdrop")
-    else 
-        img(src=`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`, alt="Poster Image") 
-    .season
-        h1 #{tvShow.name || tvShows.title || '"Unknown"'} 
-        h2 Season #{season.episodes[0].season_number} / #{season.episodes.length <= 1 ? "Episode" : "Episodes"} : #{season.episodes.length} 
-        .episodes 
+    div(class="fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden bg-gray-50 backdrop -z-1") 
+        if !tvShow.backdrop_path 
+            img(class="h-overflow max-w-none filter blur-sm", src="/contents/nullBackdrop.png", alt="Null Backdrop")
+        else 
+            img(class="h-overflow max-w-none filter blur-sm", src=`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`, alt="Poster Image") 
+    div(class="absolute w-3/4 p-4 transform -translate-x-1/2 bg-white min-h-tall rounded-t-2xl left-1/2 season")
+        h1.font-roboto.text-2xl #{tvShow.name || tvShows.title || '"Unknown"'} 
+        h2.font-roboto.text-sm.mb-4 Season #{season.episodes[0].season_number} / #{season.episodes.length <= 1 ? "Episode" : "Episodes"} : #{season.episodes.length} 
+        div(class="relative flex flex-wrap items-center justify-center episodes") 
             each episode in season.episodes 
-                a(class="item episode", href=routes.episodeDetail(tvShowId, episode.season_number, episode.episode_number)) 
-                    .still-image 
+                a(class="relative block m-4 item episode", href=routes.episodeDetail(tvShowId, episode.season_number, episode.episode_number)) 
+                    .still-image.rounded-xl.flex.justify-center.items-center.overflow-hidden.w-season.h-64 
                         if episode.still_path  
                             img(src=`${`https://image.tmdb.org/t/p/w500${episode.still_path}` || "/contents/nullBackdrop.png"}`, alt="Still Image") 
                         else 
                             img(src="/contents/nullBackdrop.png", alt="Null Still")
-                    h1=episode.name
-                    small Episode #{episode.episode_number}
+                    h1.font-roboto.-mb-1.mt-1=episode.name 
+                    small.font-roboto.text-md.mr-2 #{episode.air_date ? `Aired At : ${episode.air_date.split("-").join(".")}` : '"Unknown"'} 
+                    small.font-roboto.text-md Episode #{episode.episode_number}

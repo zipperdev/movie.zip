@@ -8,7 +8,7 @@ to do | status
 --|:--:
 Main Config | O
 Main System | O
-Templates | 75%
-Styling | 50%
-User System | X
+Templates | 85%
+Styling | 70%
+User System | 90%
 Store System | X

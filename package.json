@@ -1,7 +1,7 @@
 {
   "name": "movie.zip",
   "version": "1.0.0",
-  "description": "Make Movie.zip With NodeJS, NPM, and TMDB API",
+  "description": "Make Movie.ZIP With NodeJS, NPM, and TMDB API",
   "scripts": {
     "start": "nodemon --exec babel-node src/app.js",
     "build:css": "postcss src/public/styles/tailwind.css -o src/public/styles/styles.css"
@@ -13,14 +13,18 @@
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^10.2.5",
+    "bcrypt": "^5.0.1",
     "cheerio": "^1.0.0-rc.6",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.5",
     "node-fetch": "^2.6.1",
     "postcss": "^8.2.10",
     "postcss-cli": "^8.3.1",
     "pug": "^3.0.2",
     "tailwind-scrollbar": "^1.2.4",
+    "tailwind-scrollbar-hide": "^1.0.3",
     "tailwindcss": "^2.1.1"
   },
   "devDependencies": {

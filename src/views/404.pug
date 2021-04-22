@@ -1,0 +1,17 @@
+doctype html
+html(class="h-full scrollbar-hide", lang="en")
+    head
+        meta(charset="UTF-8")
+        link(rel="shortcut icon", href="/contents/favicon.ico", type="image/x-icon")
+        link(rel="stylesheet", href="/styles/styles.css")
+        title 404 Error
+    body.bg-gray-100.flex.justify-center.items-center.h-full 
+        .error.flex.items-center 
+            .error-board 
+                img(class="w-64", src="/contents/error.png", alt="ERROR")
+            .error-des.flex.flex-col  
+                h1.font-roboto.text-2xl 404 Error
+                p.font-roboto.text-md You have reached the end of Movie.ZIP
+                a(class="flex items-center font-medium font-roboto text-blue", href=routes.home) 
+                    span Go Home
+                    img(class="w-4 mb-2 transform translate-y-1", src="/contents/rightArrow.svg", alt="Go")
