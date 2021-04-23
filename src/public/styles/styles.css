@@ -16278,7 +16278,7 @@ h1 {
 }
 
 .min-h-88{
-  min-height: 338px;
+  min-height: 464px;
 }
 
 .min-h-96{
@@ -16302,7 +16302,7 @@ h1 {
 }
 
 .min-h-tall{
-  min-height: 626px;
+  min-height: 752px;
 }
 
 .min-w-0{
@@ -50444,7 +50444,7 @@ h1 {
   }
 
   .xs\:min-h-88{
-    min-height: 338px;
+    min-height: 464px;
   }
 
   .xs\:min-h-96{
@@ -50468,7 +50468,7 @@ h1 {
   }
 
   .xs\:min-h-tall{
-    min-height: 626px;
+    min-height: 752px;
   }
 
   .xs\:min-w-0{
@@ -83360,7 +83360,7 @@ h1 {
   }
 
   .sm\:min-h-88{
-    min-height: 338px;
+    min-height: 464px;
   }
 
   .sm\:min-h-96{
@@ -83384,7 +83384,7 @@ h1 {
   }
 
   .sm\:min-h-tall{
-    min-height: 626px;
+    min-height: 752px;
   }
 
   .sm\:min-w-0{
@@ -116276,7 +116276,7 @@ h1 {
   }
 
   .md\:min-h-88{
-    min-height: 338px;
+    min-height: 464px;
   }
 
   .md\:min-h-96{
@@ -116300,7 +116300,7 @@ h1 {
   }
 
   .md\:min-h-tall{
-    min-height: 626px;
+    min-height: 752px;
   }
 
   .md\:min-w-0{
@@ -149192,7 +149192,7 @@ h1 {
   }
 
   .lg\:min-h-88{
-    min-height: 338px;
+    min-height: 464px;
   }
 
   .lg\:min-h-96{
@@ -149216,7 +149216,7 @@ h1 {
   }
 
   .lg\:min-h-tall{
-    min-height: 626px;
+    min-height: 752px;
   }
 
   .lg\:min-w-0{
@@ -182108,7 +182108,7 @@ h1 {
   }
 
   .xl\:min-h-88{
-    min-height: 338px;
+    min-height: 464px;
   }
 
   .xl\:min-h-96{
@@ -182132,7 +182132,7 @@ h1 {
   }
 
   .xl\:min-h-tall{
-    min-height: 626px;
+    min-height: 752px;
   }
 
   .xl\:min-w-0{

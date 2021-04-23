@@ -31,7 +31,6 @@ block content
                         each genre in video.genres 
                             small.font-raleway.mr-4.genre=genre.name 
             p.font-roboto.text-justify.mt-2=video.overview
-            // For TV Show's Seasons
             if !video.hasOwnProperty("video") 
                 .tv-show-seasons.mt-4.flex.flex-col 
                     if video.last_episode_to_air 

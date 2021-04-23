@@ -1,48 +1,65 @@
 extends base
 
 block content 
-    if episode.still_path 
-        img(src=`https://image.tmdb.org/t/p/w500${episode.still_path}`, alt="Still Image") 
-    else 
-        img(src="/contents/nullBackdrop.png", alt="Null Still")
-    h1 #{episode.name || '"Unknown"'}
-    small #{episode.air_date ? episode.air_date : '"Unknown"'}
-    .video_average.relative 
-            svg(class="relative", xmlns="http://www.w3.org/2000/svg", width="85", height="85", fill="none") 
-                circle(class=`text-mg-${parseInt((episode.vote_average * 10) / 10)} transform translate-x-2 translate-y-2 stroke-current stroke-10`, cx="35", cy="35", r="35")
-            .range.absolute.top-8.left-7 
-                h2(class=`transform -translate-y-0.5 ${episode.vote_average * 10 === 100 ? "-translate-x-1" : episode.vote_average * 10 === 0 ? "translate-x-1" :  ""}`) #{episode.vote_average * 10}
-                    span %
-    p=episode.overview
-    .guest-stars.flex.flex-wrap 
-        h1.title.font-sans #{episode.guest_stars.length <= 1 ? "Guest Star" : "Guest Stars"}
-        if episode.guest_stars 
-            each star in episode.guest_stars 
-                .guest-stars.profile 
-                    .profile-image.flex.justify-center.items-center.w-24.h-28.rounded-xl.overflow-hidden 
-                        if star.profile_path 
-                            img(src=`https://image.tmdb.org/t/p/w500${star.profile_path}`, alt="Profile Image") 
-                        else 
-                            img(src="/contents/nullProfile.png", alt="Null Profile")
-                    h1=star.original_name
-                    small=star.character
-            else 
-                h1 Sorry, there's no guest star in history
+    div(class="fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden bg-gray-50 backdrop -z-1") 
+        if episode.still_path 
+            img(class="h-overflow max-w-none filter blur-sm", src=`https://image.tmdb.org/t/p/w500${episode.still_path}`, alt="Still Image") 
         else 
-            h1 Sorry, there's no guest star in history
-    .crews.flex.flex-wrap 
-        h1.title.font-sans #{episode.crew.length <= 1 ? "Crew" : "Crews"}
-        if episode.crew 
-            each crew in episode.crew 
-                .crew.profile 
-                    .profile-image.flex.justify-center.items-center.w-24.h-28.rounded-xl.overflow-hidden 
-                        if crew.profile_path 
-                            img(src=`https://image.tmdb.org/t/p/w500${crew.profile_path}`, alt="Profile Image") 
-                        else 
-                            img(src="/contents/nullProfile.png", alt="Null Profile")
-                    h1=crew.original_name
-                    small=crew.job
+            img(class="h-overflow max-w-none filter blur-sm", src="/contents/nullBackdrop.png", alt="Null Still")
+    div(class="absolute w-3/4 transform -translate-x-1/2 bg-white mt-72 rounded-t-2xl min-h-88 left-1/2 detail-container") 
+        div(class="absolute overflow-hidden transform -translate-x-1/2 shadow-lg poster w-96 rounded-2xl -top-10 left-1/2 lg:translate-x-0 lg:left-4")
+            if episode.still_path 
+                img(class="w-96", src=`https://image.tmdb.org/t/p/w500${episode.still_path}`, alt="Still Image") 
             else 
-                h1 Sorry, there's no crew in history
-        else 
-            h1 Sorry, there's no crew in history
+                img(class="w-96", src="/contents/nullPoster.png", alt="Null Still")
+            if episode.adult 
+                img(class="absolute rounded-full shadow-md -right-1 -bottom-1 w-14", src="/contents/forAdult.png", alt="For Adult")
+        div(class="detail xs:p-4 xs:mt-44 lg:mt-0 lg:ml-96 lg:pl-8") 
+            h1.font-roboto.text-2xl.mb-2 #{episode.name || '"Unknown"'}
+            .about-less.flex.justfy-center.items-center 
+                        .video_average.relative 
+                            svg(class="relative", xmlns="http://www.w3.org/2000/svg", width="70", height="70", fill="none") 
+                                circle(class=`text-mg-${parseInt((episode.vote_average * 10) / 10)} transform translate-x-1 translate-y-1 stroke-current stroke-6`, cx="30", cy="30", r="30")
+                            .range.absolute.top-6.left-5 
+                                h2(class=`transform -translate-y-0.5 ${episode.vote_average * 10 === 100 ? "-translate-x-1" : episode.vote_average * 10 === 0 ? "translate-x-1" :  ""} font-roboto`) #{episode.vote_average * 10}
+                                    span %
+                        div(class="mb-1 ml-2 text-details") 
+                            small.font-roboto.mr-4 #{tv.title || tv.name || '"Unknown"'} / Season #{episode.season_number} 
+                            div(class="mt-1 genres") 
+                                small.font-roboto.text-md #{!episode.air_date && episode.release_date ? `Released At : ${episode.release_date.split("-").join(".")}` : !episode.release_date && episode.air_date ? `Aired At : ${episode.air_date.split("-").join(".")}` : '"Unknown"'} 
+                                small.font-roboto.text-md.ml-4 #{episode.hasOwnProperty("episode") ? "Movie" : "TV"}
+            p.font-roboto.text-justify.mt-2=episode.overview
+            .guest-stars-container.mt-6 
+                h1.title.font-sans #{episode.guest_stars.length <= 1 ? "Guest Star" : "Guest Stars"}
+                .guest-stars.rounded-2xl.justify-around.items-center.shadow-inner.flex.flex-wrap.justify-center.w-full.h-64.overflow-auto.scrollbar-hide 
+                    if episode.guest_stars 
+                        each star in episode.guest_stars 
+                            .guest-stars.profile.my-1 
+                                .profile-image.flex.items-center.w-24.h-28.rounded-xl.overflow-hidden.shadow-md 
+                                    if star.profile_path 
+                                        img(src=`https://image.tmdb.org/t/p/w500${star.profile_path}`, alt="Profile Image") 
+                                    else 
+                                        img(src="/contents/nullProfile.png", alt="Null Profile")
+                                h1.-mb-2.text-sm.font-roboto #{star.original_name.length >= 11 ? `${star.original_name.slice(0, 11)}...` : star.original_name}
+                                small.text-xs.font-sans.font-bold #{star.character.length >= 12 ? `${star.character.slice(0, 12)}...` : star.character}
+                        else 
+                            h1.font-roboto.text-sm Sorry, there's no guest star in history
+                    else 
+                        h1.font-roboto.text-sm Sorry, there's no guest star in history
+            .crews-container.mt-6 
+                h1.title.font-sans #{episode.crew.length <= 1 ? "Crew" : "Crews"}
+                .crews.rounded-2xl.justify-around.items-center.shadow-inner.flex.flex-wrap.w-full.h-64.overflow-auto.scrollbar-hide 
+                    if episode.crew 
+                        each crew in episode.crew 
+                            .crew.profile.my-1 
+                                .profile-image.flex.justify-center.items-center.w-24.h-28.rounded-xl.overflow-hidden.shadow-md 
+                                    if crew.profile_path 
+                                        img(src=`https://image.tmdb.org/t/p/w500${crew.profile_path}`, alt="Profile Image") 
+                                    else 
+                                        img(src="/contents/nullProfile.png", alt="Null Profile")
+                                h1.-mb-2.text-sm.font-roboto #{crew.original_name.length >= 11 ? `${crew.original_name.slice(0, 11)}...` : crew.original_name}
+                                small.text-xs.font-sans.font-bold #{crew.job.length >= 12 ? `${crew.job.slice(0, 12)}...` : crew.job}
+                        else 
+                            h1.font-roboto.text-sm Sorry, there's no crew in history
+                    else 
+                        h1.font-roboto.text-sm Sorry, there's no crew in history

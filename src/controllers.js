@@ -106,14 +106,25 @@ export const seasonDetail = (req, res) => {
 
 export const episodeDetail = (req, res) => {
     const { tvShow, season, episode } = req.params;
-    fetch(`${mainUri}/tv/${tvShow}/season/${season}/episode/${episode}?api_key=${API_KEY}`)
+    fetch(`${mainUri}/tv/${tvShow}?api_key=${API_KEY}`)
         .then((res) => res.json())
         .then((data) => {
-            const parsedEpisode = data;
-            if (parsedEpisode.success === false) {
+            const parsedTvShow = data;
+            if (parsedTvShow.success === false) {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
-                return res.render("episodeDetail", { pageTitle: `Season ${season} Episode ${episode}`, episode: parsedEpisode });
+                fetch(`${mainUri}/tv/${tvShow}/season/${season}/episode/${episode}?api_key=${API_KEY}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const parsedEpisode = data;
+                        if (parsedEpisode.success === false) {
+                            return res.status(500).render("error", { pageTitle: "500 Error" });
+                        } else {
+                            return res.render("episodeDetail", { pageTitle: ` ${parsedTvShow.title || parsedTvShow.name || '"Unknown"'} Season ${season} Episode ${episode}`, episode: parsedEpisode, tv: parsedTvShow });
+                        };
+                    }).catch((err) => {
+                        return res.status(500).render("error", { pageTitle: "500 Error" });
+                    });
             };
         }).catch((err) => {
             return res.status(500).render("error", { pageTitle: "500 Error" });
@@ -178,7 +189,7 @@ export const search = (req, res) => {
 };
 
 export const library = (req, res) => {
-    return res.send("LIBRARY FOR LOGIN!!!!!! bongsnh.... smash!!!!");
+    return res.send("CONTENTS LIBRARY FOR LOGIN CLIENT");
 };
 
 export const getLogin = (req, res) => {
