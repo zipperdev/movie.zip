@@ -21,6 +21,7 @@ app.use(
         }
     })
 );
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use("/contents", express.static(__dirname + "/contents"));
