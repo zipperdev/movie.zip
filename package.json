@@ -4,7 +4,7 @@
   "description": "Make Movie.ZIP With NodeJS, NPM, and TMDB API",
   "scripts": {
     "dev": "nodemon --exec babel-node src/app.js",
-    "start": "node src/app.js",
+    "start": "babel-node src/app.js",
     "build:css": "postcss src/public/styles/tailwind.css -o src/public/styles/styles.css"
   },
   "keywords": [
@@ -26,12 +26,12 @@
     "pug": "^3.0.2",
     "tailwind-scrollbar": "^1.2.4",
     "tailwind-scrollbar-hide": "^1.0.3",
-    "tailwindcss": "^2.1.1"
-  },
-  "devDependencies": {
+    "tailwindcss": "^2.1.1",
     "@babel/core": "^7.13.15",
     "@babel/node": "^7.13.13",
-    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-env": "^7.13.15"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.7"
   }
 }
