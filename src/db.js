@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose.connect("mongodb+srv://zippperdev:!ksh20101119@users.nugrp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useFindAndModify: false, 
