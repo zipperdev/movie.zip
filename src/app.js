@@ -7,13 +7,13 @@ import "./models/User";
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "pug");
 app.use(
     session({
-        secret: "30IEB6cWww", 
+        secret: process.env.COOKIE_SECRET, 
         resave: false, 
         saveUninitialized: false, 
         cookie: {
