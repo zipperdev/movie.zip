@@ -13,7 +13,7 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "pug");
 app.use(
     session({
-        secret: process.env.COOKIE_SECRET, 
+        secret: "30IEB6cWww", 
         resave: false, 
         saveUninitialized: false, 
         cookie: {
