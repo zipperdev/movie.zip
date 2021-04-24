@@ -26,10 +26,17 @@ html(class="scrollbar-hide", lang="en")
                     a(class="transition hover:text-mg-2", href=routes.signup) Sign Up 
         #loading-page-element.w-full.h-full.flex.justify-center.items-center.fixed.top-0.left-0.z-10.bg-gray-100 
             h1(class="font-sans") Loading...
+            button(id="loading-page-skip", class="absolute p-2 transition-shadow rounded-lg shadow-md bottom-10 right-10 hover:shadow-sm") 
+                h1.font-sans.font-medium Skip
+                p.font-roboto.font-semibold.text-mg-1.text-xs.w-28.text-justify Since the image is being loaded, it may appear blank.
         div(class="h-full mt-28 content") 
             block content
         script(type='text/javascript').
+            const loadingEl = document.querySelector("#loading-page-element");
+            const loadSkipBtnEl = document.querySelector("#loading-page-element button#loading-page-skip");
+            loadSkipBtnEl.addEventListener("click", () => {
+                document.body.removeChild(loadingEl);
+            });
             window.addEventListener("load", () => {
-                const loadingEl = document.querySelector("#loading-page-element");
                 document.body.removeChild(loadingEl);
             });

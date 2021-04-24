@@ -566,6 +566,10 @@ video {
   scrollbar-width: initial;
 }
 
+* {
+  outline: none;
+}
+
 h1 {
   font-size: 1.25rem;
   line-height: 1.75rem;

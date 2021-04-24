@@ -6,7 +6,7 @@ block content
             img(class="h-overflow max-w-none filter blur-sm", src="/contents/nullBackdrop.png", alt="Null Backdrop")
         else 
             img(class="h-overflow max-w-none filter blur-sm", src=`https://image.tmdb.org/t/p/w500${video.backdrop_path}`, alt="Poster Image") 
-    div(class="absolute w-3/4 transform -translate-x-1/2 bg-white mt-72 rounded-t-2xl min-h-88 left-1/2 detail-container") 
+    div(class="absolute w-3/4 pb-1 transform -translate-x-1/2 bg-white mt-72 rounded-t-2xl min-h-88 left-1/2 detail-container") 
         div(class="absolute overflow-hidden transform -translate-x-1/2 shadow-lg poster w-96 rounded-2xl -top-64 left-1/2 lg:translate-x-0 lg:left-4")
             if !video.poster_path 
                 img(class="w-96", src="/contents/nullPoster.png", alt="Null Poster")
@@ -41,3 +41,31 @@ block content
                                     h1.font-roboto.mb-2.mr-2 SEASON #{i+1} 
                     else 
                         h1 "Unknown Season"
+            .production-companies-container.mt-6 
+                h1.title.font-sans #{video.production_companies.length <= 1 ? "Production Company" : "Production Companies"}
+                .production-companies.rounded-2xl.justify-around.items-center.shadow-inner.flex.flex-wrap.justify-center.w-full.h-64.overflow-auto.scrollbar-hide 
+                    if video.production_companies 
+                        each company in video.production_companies 
+                            .company.my-1 
+                                .company-logo.flex.items-center.w-24.h-28.rounded-xl.overflow-hidden.shadow-md 
+                                    if company.logo_path 
+                                        img(src=`https://image.tmdb.org/t/p/w500${company.logo_path}`, alt="Logo Image") 
+                                    else 
+                                        img(src="/contents/nullProfile.png", alt="Null Profile")
+                                h1.-mb-2.text-sm.font-roboto #{company.name.length >= 11 ? `${company.name.slice(0, 11)}...` : company.name}
+                                small.text-xs.font-sans.font-bold #{company.origin_country.length >= 12 ? `${company.origin_country.slice(0, 12)}...` : company.origin_country || '"Unknown"'}
+                        else 
+                            h1.font-roboto.text-sm Sorry, there's no production company in history
+                    else 
+                        h1.font-roboto.text-sm Sorry, there's no production company in history
+                        .production-companies-container.mt-6 
+                h1.title.font-sans #{video.production_companies.length <= 1 ? "Production Company" : "Production Companies"}
+            .production-countries.rounded-2xl.justify-around.items-center.shadow-inner.flex.flex-wrap.justify-center.w-full.h-64.overflow-auto.scrollbar-hide 
+                if video.production_companies 
+                    each country in video.production_countries 
+                        .country.my-1 
+                            h1.-mb-2.text-xl.font-roboto #{country.name}
+                    else 
+                        h1.font-roboto.text-sm Sorry, there's no production company in history
+                else 
+                    h1.font-roboto.text-sm Sorry, there's no production company in history
