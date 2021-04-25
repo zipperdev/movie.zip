@@ -4,7 +4,8 @@ const MOVIE_DETAIL = "/movies/:id";
 const TV_SHOW_DETAIL = "/tv-shows/:id";
 const SEASON_DETAIL = "/tv-shows/:tvShow/seasons/:season";
 const EPISODE_DETAIL = "/tv-shows/:tvShow/seasons/:season/episodes/:episode";
-const LIBRARY = "/library";
+const ME = "/me";
+const ME_DELETE = "/me/delete";
 const LOGIN = "/login";
 const LOGOUT = "/logout";
 const SIGNUP = "/signup";
@@ -40,7 +41,8 @@ const routes = {
             return EPISODE_DETAIL;
         };
     }, 
-    library: LIBRARY, 
+    me: ME, 
+    meDelete: ME_DELETE, 
     login: LOGIN, 
     logout: LOGOUT, 
     signup: SIGNUP

@@ -2,12 +2,15 @@ extends base
 
 block content 
     if errorMsg 
-        span=errorMsg
+        .w-full.h-14.bg-red-500.-mt-7.opacity-90.flex.justify-between.items-center.p-2.unique#somethingError 
+            span.font-roboto.text-white=errorMsg
+            button.unique#closeError 
+                img(class="w-8", src="/contents/close.png", alt="X")
     img(class="absolute h-20 transform -translate-x-1/2 left-1/2", src="/contents/full-logo.png", alt="Movie.ZIP")
     form(class="flex flex-col items-center justify-center h-full transform translate-y-28", method="POST") 
-        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="text", name="name", placeholder="Name", title="Please write your name", maxlength="60", required)
-        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="text", name="username", placeholder="Username", title="Please write username", maxlength="60", required)
-        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="email", name="email", placeholder="Email", title="Please write your email", required)
-        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="password", name="password", placeholder="Password", title="Please write password", required)
-        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="password", name="confrimPassword", placeholder="Confrim Password", title="Please write password again to confrim", required)
-        input(class="w-64 h-10 font-roboto", type="submit", value="Sign Up On Movie.ZIP")
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="text", name="name", placeholder="Name", oninvalid="this.setCustomValidity('Please write your name')", title="Please write your name", maxlength="60", required)
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="text", name="username", placeholder="Username", oninvalid="this.setCustomValidity('Please write username')", title="Please write username", maxlength="60", required)
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="email", name="email", placeholder="Email", oninvalid="this.setCustomValidity('Please write your email')", title="Please write your email", required)
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="password", name="password", placeholder="Password", oninvalid="this.setCustomValidity('Please write a password of more than 8 characters')", title="Please write password", minlength="8", required)
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="password", name="confrimPassword", placeholder="Confrim Password", oninvalid="this.setCustomValidity('Please write password again')", title="Please write password again to confrim", minlength="8", required)
+        input(class="w-64 h-10 cursor-pointer font-roboto", type="submit", value="Sign Up On Movie.ZIP")

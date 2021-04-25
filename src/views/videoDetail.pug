@@ -23,20 +23,28 @@ block content
                     .range.absolute.top-6.left-5 
                         h2(class=`transform -translate-y-0.5 ${video.vote_average * 10 === 100 ? "-translate-x-1" : video.vote_average * 10 === 0 ? "translate-x-1" :  ""} font-roboto`) #{video.vote_average * 10}
                             span %
-                div(class="mb-1 ml-2 text-details") 
+                form(class="mx-2", method="POST") 
+                    if userLogin 
+                        if video.hasOwnProperty("video") 
+                            if user.includeMovies.includes(video.id) 
+                                input(type="hidden", name="type", value="remove")
+                            else 
+                                input(type="hidden", name="type", value="save")
+                        else 
+                            if user.includeTvShows.includes(video.id) 
+                                input(type="hidden", name="type", value="remove")
+                            else 
+                                input(type="hidden", name="type", value="save")
+                        input(class="block w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer", type="submit", value=`${video.hasOwnProperty("video") ? user.includeMovies.includes(video.id) ? "Remove" : "Save" : user.includeTvShows.includes(video.id) ? "Remove" : "Save"}`)
+                    else 
+                        input(class="w-16 h-16 font-sans bg-yellow-500 rounded-full cursor-pointer opacity-90 filter", title="If you want to save contents, then sign up", type="submit", value="Save", disabled)
+                div(class="mb-1 ml-1 text-details") 
                     small.font-roboto.text-md #{!video.first_air_date && video.release_date ? `Released At : ${video.release_date.split("-").join(".")}` : !video.release_date && video.first_air_date ? `First Aired At : ${video.first_air_date.split("-").join(".")}` : '"Unknown"'} 
                     small.font-roboto.text-md.ml-4 #{video.hasOwnProperty("video") ? "Movie" : "TV"}
                     small.font-roboto.text-md.ml-4 #{!video.hasOwnProperty("video") ? "" : video.runtime < 60 ? `${video.runtime % 60}m` : video.runtime % 60 === 0 ? `${parseInt(video.runtime / 60)}h` : video.runtime ? `${parseInt(video.runtime / 60)}h ${video.runtime % 60}m` : '"Unknown"'}
                     div(class="mt-1 genres") 
                         each genre in video.genres 
                             small.font-raleway.mr-4.genre=genre.name 
-                form(method="POST") 
-                    if userLogin 
-                        input(type="hidden", name="video", value=video.id)
-                        input(type="hidden", name="type", value=`${video.hasOwnProperty("video") ? "movie" : "tv"}`)
-                        input(class="block w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer", type="submit", value="Save")
-                    else 
-                        input(class="w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer opacity-90 filter blur-sm", title="If you want to save contents, then sign up", type="submit", value="Save", disabled)
             p.font-roboto.text-justify.mt-2=video.overview
             if !video.hasOwnProperty("video") 
                 .tv-show-seasons.mt-4.flex.flex-col 

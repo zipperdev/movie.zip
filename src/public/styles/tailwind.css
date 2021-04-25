@@ -6,8 +6,22 @@
 /* Tailwind CSS */
 @tailwind base;
 
-* {
+*:focus {
     outline: none;
+}
+
+input.multiverse {
+    transition: 0.3s;
+}
+
+input.multiverse:invalid {
+    border: 2px solid #ff4141;
+    color: #ff4141;
+}
+
+input.multiverse:valid {
+    border: 2px solid #00c95a;
+    color: #00c95a;
 }
 
 h1 {

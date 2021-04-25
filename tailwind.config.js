@@ -188,6 +188,7 @@ module.exports = {
       "mg-1": "#FF4C02",
       "mg-0": "#FF1600",
       "blue": "#0066FF",
+      "white": "#FFFFFF",
     },
     fontSize: {
       'xs': '.75rem',

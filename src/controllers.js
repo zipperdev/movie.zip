@@ -45,25 +45,31 @@ export const home = (req, res) => {
         });
 };
 
-export const getMovieDetail = (req, res) => {
+export const getMovieDetail = async (req, res) => {
     const { id } = req.params;
     fetch(`${mainUri}/movie/${id}?api_key=${API_KEY}`)
         .then((res) => res.json())
-        .then((data) => {
+        .then(async (data) => {
             const movie = data;
             if (movie.success === false) {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
-                return res.render("videoDetail", { pageTitle: `${movie.title || movie.name}`, video: movie });
+                if (req.session.user) {
+                    const user = await User.findOne({email: req.session.user.email});
+                    return res.render("videoDetail", { pageTitle: `${movie.title || movie.name}`, video: movie, user });
+                } else {
+                    return res.render("videoDetail", { pageTitle: `${movie.title || movie.name}`, video: movie, user: undefined });
+                };
             };
         }).catch((err) => {
             return res.status(500).render("error", { pageTitle: "500 Error" });
         });
 };
 
-export const postMovieDetail = (req, res) => {
+export const postMovieDetail = async (req, res) => {
     const { id } = req.params;
-    const user = req.session.user;
+    const { type } = req.body;
+    const user = await User.findOne({email: req.session.user.email});
     fetch(`${mainUri}/movie/${id}?api_key=${API_KEY}`)
     .then((res) => res.json())
     .then(async (data) => {
@@ -72,43 +78,48 @@ export const postMovieDetail = (req, res) => {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
                 const includeMovies = user.includeMovies;
-                if (!includeMovies.includes(movie.id)) {
-                    await User.findOneAndUpdate({ 
-                        email: user.email 
-                    }, { 
-                        $push: { includeMovies: movie.id } 
-                    });
-                    await User.findOneAndUpdate({ 
-                        email: user.email 
-                    }, { 
-                        $push: { library: movie } 
-                    });
+                if (type === "save") {
+                    if (!includeMovies.includes(movie.id)) {
+                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeMovies: movie.id, library: movie } });
+                    };
+                    return res.redirect(routes.home);
+                } else if (type === "remove") {
+                    if (includeMovies.includes(movie.id)) {
+                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeMovies: movie.id, library: { id: movie.id } } });
+                    };
+                    return res.redirect(routes.home);
                 };
-                return res.render("videoDetail", { pageTitle: `${movie.title || movie.name}`, video: movie });
             };
         }).catch((err) => {
             return res.status(500).render("error", { pageTitle: "500 Error" });
         });
 };
 
-export const getTvShowDetail = (req, res) => {
+export const getTvShowDetail = async (req, res) => {
     const { id } = req.params;
     fetch(`${mainUri}/tv/${id}?api_key=${API_KEY}`)
-        .then((res) => res.json())
-        .then((data) => {
+    .then((res) => res.json())
+    .then(async (data) => {
             const tvShow = data;
             if (tvShow.success === false) {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
-                return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow });
+                if (req.session.user) {
+                    const user = await User.findOne({email: req.session.user.email});
+                    return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow, user });
+                } else {
+                    return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow, user: undefined });
+                };
             };
         }).catch((err) => {
             return res.status(500).render("error", { pageTitle: "500 Error" });
         });
 };
 
-export const postTvShowDetail = (req, res) => {
+export const postTvShowDetail = async (req, res) => {
     const { id } = req.params;
+    const { type } = req.body;
+    const user = await User.findOne({email: req.session.user.email});
     fetch(`${mainUri}/tv/${id}?api_key=${API_KEY}`)
         .then((res) => res.json())
         .then(async (data) => {
@@ -117,19 +128,17 @@ export const postTvShowDetail = (req, res) => {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
                 const includeTvShows = user.includeTvShows;
-                if (!includeTvShows.includes(tvShow.id)) {
-                    await User.findOneAndUpdate({ 
-                        email: user.email 
-                    }, { 
-                        $push: { includeMovies: tvShow.id } 
-                    });
-                    await User.findOneAndUpdate({ 
-                        email: user.email 
-                    }, { 
-                        $push: { library: tvShow } 
-                    });
+                if (type === "save") {
+                    if (!includeTvShows.includes(tvShow.id)) {
+                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeTvShows: tvShow.id, library: tvShow } });
+                    };
+                    return res.redirect(routes.home);
+                } else if (type === "remove") {
+                    if (includeTvShows.includes(tvShow.id)) {
+                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeTvShows: tvShow.id, library: { id: tvShow.id } } });
+                    };
+                    return res.redirect(routes.home);
                 };
-                return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow });
             };
         }).catch((err) => {
             return res.status(500).render("error", { pageTitle: "500 Error" });
@@ -247,8 +256,29 @@ export const search = (req, res) => {
     }
 };
 
-export const library = (req, res) => {
-    return res.send(req.session.user);
+export const me = async (req, res) => {
+    const user = await User.findOne({email: req.session.user.email});
+    return res.render("profile", { pageTitle: `${user.username}'s Library`, user });
+};
+
+export const getMeDelete = (req, res) => {
+    return res.render("deleteProfile", { pageTitle: "Delete User" });
+};
+
+export const postMeDelete = async (req, res) => {
+    const { password } = req.body;
+    const user = await User.findOne({ email: req.session.user.email });
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+        return res.status(400).render("deleteProfile", { 
+            pageTitle: "Delete User", 
+            errorMsg: "Password doesn't match" 
+        });
+    } else {
+        await User.findOneAndDelete({ email: req.session.user.email });
+        return res.redirect(routes.logout);
+    };
 };
 
 export const getLogin = (req, res) => {
@@ -292,26 +322,33 @@ export const getSignup = (req, res) => {
 export const postSignup = async (req, res) => {
     const { name, username, email, password, confrimPassword } = req.body;
     
-    if (password !== confrimPassword) {
+    if (!password.length >= 8) {
         return res.status(400).render("signup", { 
             pageTitle: "Sign Up", 
-            errorMsg: "Password confrimation doesn't match" 
+            errorMsg: "Password does not exceed 8 characters" 
         });
     } else {
-        const exists = await User.exists({ email });
-        if (exists) {
-            return res.status(400).render("signup", {
+        if (password !== confrimPassword) {
+            return res.status(400).render("signup", { 
                 pageTitle: "Sign Up", 
-                errorMsg: "This email is already taken"
+                errorMsg: "Password confrimation doesn't match" 
             });
         } else {
-            await User.create({
-                name, 
-                username, 
-                email, 
-                password
-            });
-            return res.redirect(routes.login);
+            const exists = await User.exists({ email });
+            if (exists) {
+                return res.status(400).render("signup", {
+                    pageTitle: "Sign Up", 
+                    errorMsg: "This email is already taken"
+                });
+            } else {
+                await User.create({
+                    name, 
+                    username, 
+                    email, 
+                    password
+                });
+                return res.redirect(routes.login);
+            };
         };
-    };
+    }
 };

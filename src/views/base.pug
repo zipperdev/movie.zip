@@ -18,7 +18,7 @@ html(class="scrollbar-hide", lang="en")
             .link-container.flex.font-roboto 
                 if userLogin 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.home) Home 
-                    a(class="mr-4 transition hover:text-mg-2", href=routes.library) Library 
+                    a(class="mr-4 transition hover:text-mg-2", href=routes.me) Profile 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.logout) Logout 
                 else 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.home) Home 
@@ -29,7 +29,7 @@ html(class="scrollbar-hide", lang="en")
             button(id="loading-page-skip", class="absolute p-2 transition-shadow rounded-lg shadow-md bottom-10 right-10 hover:shadow-sm") 
                 h1.font-sans.font-medium Skip
                 p.font-roboto.font-semibold.text-mg-1.text-xs.w-28.text-justify Since the image is being loaded, it may appear blank.
-        div(class="h-full mt-28 content") 
+        div(class="h-full mt-28 content unique") 
             block content
         script(type='text/javascript').
             const loadingEl = document.querySelector("#loading-page-element");
@@ -39,4 +39,9 @@ html(class="scrollbar-hide", lang="en")
             });
             window.addEventListener("load", () => {
                 document.body.removeChild(loadingEl);
+            });
+            const errorEl = document.querySelector("div.unique#somethingError");
+            const closeEl = document.querySelector("button.unique#closeError");
+            closeEl.addEventListener("click", () => {
+                errorEl.remove();
             });

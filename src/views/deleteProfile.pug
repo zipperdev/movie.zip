@@ -1,0 +1,12 @@
+extends base
+
+block content 
+    if errorMsg 
+        .w-full.h-14.bg-red-500.-mt-7.opacity-90.flex.justify-between.items-center.p-2.unique#somethingError 
+            span.font-roboto.text-white=errorMsg
+            button.unique#closeError 
+                img(class="w-8", src="/contents/close.png", alt="X")
+    img(class="absolute h-20 transform -translate-x-1/2 left-1/2", src="/contents/full-logo.png", alt="Movie.ZIP")
+    form(class="flex flex-col items-center justify-center h-full transform translate-y-28", method="POST") 
+        input(class="w-64 h-10 p-4 mb-2 multiverse font-roboto", type="password", name="password", placeholder="Password", oninvalid="this.setCustomValidity('Please write the password')", title="Please write password", required)
+        input(class="w-64 h-10 text-white bg-red-500 cursor-pointer font-roboto", type="submit", value="Delete User")
