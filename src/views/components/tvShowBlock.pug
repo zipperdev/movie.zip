@@ -9,14 +9,14 @@ mixin tvShow(tvShow)
                 img(class="absolute rounded-full shadow-md -right-1 -bottom-1 w-14", src="/contents/forAdult.png", alt="For Adult")
         .title 
             if !tvShow.name && tvShow.title 
-                h2 #{tvShow.title.length >= 18 ? `${tvShow.title.slice(0, 18).trim()}...`  : tvShow.title}
+                h2.font-roboto #{tvShow.title.length >= 18 ? `${tvShow.title.slice(0, 18).trim()}...`  : tvShow.title}
             else if !tvShow.title && tvShow.name 
-                h2 #{tvShow.name.length >= 18 ? `${tvShow.name.slice(0, 18).trim()}...`  : tvShow.name}
+                h2.font-roboto #{tvShow.name.length >= 18 ? `${tvShow.name.slice(0, 18).trim()}...`  : tvShow.name}
             else 
-                h2 "Unknown"
+                h2.font-roboto "Unknown"
             if !tvShow.first_air_date && tvShow.release_date 
-                small Released At : #{tvShow.release_date.split("-").join(".")}
+                small.font-roboto Released At : #{tvShow.release_date.split("-").join(".")}
             else if !tvShow.release_date && tvShow.first_air_date 
-                small First Aired At : #{tvShow.first_air_date.split("-").join(".")}
+                small.font-roboto First Aired At : #{tvShow.first_air_date.split("-").join(".")}
             else 
-                small "Unknown"
+                small.font-roboto "Unknown"

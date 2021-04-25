@@ -20,7 +20,22 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String, 
         required: true
-    }
+    }, 
+    library: [
+        {
+            type: Object
+        }
+    ], 
+    includeMovies: [
+        {
+            type: Number
+        }
+    ], 
+    includeTvShows: [
+        {
+            type: Number
+        }
+    ]
 });
 
 userSchema.pre("save", async function () {

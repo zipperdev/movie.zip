@@ -7,7 +7,7 @@ block content
         else 
             img(class="h-overflow max-w-none filter blur-sm", src="/contents/nullBackdrop.png", alt="Null Still")
     div(class="absolute w-3/4 transform -translate-x-1/2 bg-white mt-72 rounded-t-2xl min-h-88 left-1/2 detail-container") 
-        div(class="absolute overflow-hidden transform -translate-x-1/2 shadow-lg poster w-96 rounded-2xl -top-10 left-1/2 lg:translate-x-0 lg:left-4")
+        div(class="absolute flex items-center justify-center h-56 overflow-hidden transform -translate-x-1/2 shadow-lg poster w-96 rounded-2xl -top-10 left-1/2 lg:translate-x-0 lg:left-4")
             if episode.still_path 
                 img(class="w-96", src=`https://image.tmdb.org/t/p/w500${episode.still_path}`, alt="Still Image") 
             else 

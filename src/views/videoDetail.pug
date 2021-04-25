@@ -7,7 +7,7 @@ block content
         else 
             img(class="h-overflow max-w-none filter blur-sm", src=`https://image.tmdb.org/t/p/w500${video.backdrop_path}`, alt="Poster Image") 
     div(class="absolute w-3/4 pb-1 transform -translate-x-1/2 bg-white mt-72 rounded-t-2xl min-h-88 left-1/2 detail-container") 
-        div(class="absolute overflow-hidden transform -translate-x-1/2 shadow-lg poster w-96 rounded-2xl -top-64 left-1/2 lg:translate-x-0 lg:left-4")
+        div(class="absolute overflow-hidden transform -translate-x-1/2 translate-y-2 shadow-lg poster w-96 rounded-2xl -top-72 left-1/2 lg:translate-x-0 lg:left-4")
             if !video.poster_path 
                 img(class="w-96", src="/contents/nullPoster.png", alt="Null Poster")
             else 
@@ -30,6 +30,13 @@ block content
                     div(class="mt-1 genres") 
                         each genre in video.genres 
                             small.font-raleway.mr-4.genre=genre.name 
+                form(method="POST") 
+                    if userLogin 
+                        input(type="hidden", name="video", value=video.id)
+                        input(type="hidden", name="type", value=`${video.hasOwnProperty("video") ? "movie" : "tv"}`)
+                        input(class="block w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer", type="submit", value="Save")
+                    else 
+                        input(class="w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer opacity-90 filter blur-sm", title="If you want to save contents, then sign up", type="submit", value="Save", disabled)
             p.font-roboto.text-justify.mt-2=video.overview
             if !video.hasOwnProperty("video") 
                 .tv-show-seasons.mt-4.flex.flex-col 

@@ -45,7 +45,7 @@ export const home = (req, res) => {
         });
 };
 
-export const movieDetail = (req, res) => {
+export const getMovieDetail = (req, res) => {
     const { id } = req.params;
     fetch(`${mainUri}/movie/${id}?api_key=${API_KEY}`)
         .then((res) => res.json())
@@ -61,7 +61,37 @@ export const movieDetail = (req, res) => {
         });
 };
 
-export const tvShowDetail = (req, res) => {
+export const postMovieDetail = (req, res) => {
+    const { id } = req.params;
+    const user = req.session.user;
+    fetch(`${mainUri}/movie/${id}?api_key=${API_KEY}`)
+    .then((res) => res.json())
+    .then(async (data) => {
+            const movie = data;
+            if (movie.success === false) {
+                return res.status(500).render("error", { pageTitle: "500 Error" });
+            } else {
+                const includeMovies = user.includeMovies;
+                if (!includeMovies.includes(movie.id)) {
+                    await User.findOneAndUpdate({ 
+                        email: user.email 
+                    }, { 
+                        $push: { includeMovies: movie.id } 
+                    });
+                    await User.findOneAndUpdate({ 
+                        email: user.email 
+                    }, { 
+                        $push: { library: movie } 
+                    });
+                };
+                return res.render("videoDetail", { pageTitle: `${movie.title || movie.name}`, video: movie });
+            };
+        }).catch((err) => {
+            return res.status(500).render("error", { pageTitle: "500 Error" });
+        });
+};
+
+export const getTvShowDetail = (req, res) => {
     const { id } = req.params;
     fetch(`${mainUri}/tv/${id}?api_key=${API_KEY}`)
         .then((res) => res.json())
@@ -70,6 +100,35 @@ export const tvShowDetail = (req, res) => {
             if (tvShow.success === false) {
                 return res.status(500).render("error", { pageTitle: "500 Error" });
             } else {
+                return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow });
+            };
+        }).catch((err) => {
+            return res.status(500).render("error", { pageTitle: "500 Error" });
+        });
+};
+
+export const postTvShowDetail = (req, res) => {
+    const { id } = req.params;
+    fetch(`${mainUri}/tv/${id}?api_key=${API_KEY}`)
+        .then((res) => res.json())
+        .then(async (data) => {
+            const tvShow = data;
+            if (tvShow.success === false) {
+                return res.status(500).render("error", { pageTitle: "500 Error" });
+            } else {
+                const includeTvShows = user.includeTvShows;
+                if (!includeTvShows.includes(tvShow.id)) {
+                    await User.findOneAndUpdate({ 
+                        email: user.email 
+                    }, { 
+                        $push: { includeMovies: tvShow.id } 
+                    });
+                    await User.findOneAndUpdate({ 
+                        email: user.email 
+                    }, { 
+                        $push: { library: tvShow } 
+                    });
+                };
                 return res.render("videoDetail", { pageTitle: `${tvShow.title || tvShow.name}`, video: tvShow });
             };
         }).catch((err) => {
@@ -93,7 +152,7 @@ export const seasonDetail = (req, res) => {
                         if (parsedSeason.success === false) {
                             return res.status(500).render("error", { pageTitle: "500 Error" });
                         } else {
-                            return res.render("seasonsDetail", { pageTitle: `${parsedTvShow.name || parsedTvShows.title || '"Unknown"'} : Season ${season}`, season: parsedSeason, tvShowId: tvShow, tvShow: parsedTvShow });
+                            return res.render("seasonsDetail", { pageTitle: `${parsedTvShow.name || parsedTvShows.title || '"Unknown"'} Season ${season}`, season: parsedSeason, tvShowId: tvShow, tvShow: parsedTvShow });
                         };
                     }).catch((err) => {
                         return res.status(500).render("error", { pageTitle: "500 Error" });
@@ -189,7 +248,7 @@ export const search = (req, res) => {
 };
 
 export const library = (req, res) => {
-    return res.send("CONTENTS LIBRARY FOR LOGIN CLIENT");
+    return res.send(req.session.user);
 };
 
 export const getLogin = (req, res) => {

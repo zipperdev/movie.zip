@@ -3,10 +3,11 @@ extends base
 block content 
     if errorMsg 
         span=errorMsg
-    form(method="POST") 
-        input(type="text", name="name", placeholder="Name", title="Please write your name", maxlength="60", required)
-        input(type="text", name="username", placeholder="Username", title="Please write username", maxlength="60", required)
-        input(type="email", name="email", placeholder="Email", title="Please write your email", required)
-        input(type="password", name="password", placeholder="Password", title="Please write password", required)
-        input(type="password", name="confrimPassword", placeholder="Confrim Password", title="Please write password again to confrim", required)
-        input(type="submit", value="Sign Up On Movie.ZIP")
+    img(class="absolute h-20 transform -translate-x-1/2 left-1/2", src="/contents/full-logo.png", alt="Movie.ZIP")
+    form(class="flex flex-col items-center justify-center h-full transform translate-y-28", method="POST") 
+        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="text", name="name", placeholder="Name", title="Please write your name", maxlength="60", required)
+        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="text", name="username", placeholder="Username", title="Please write username", maxlength="60", required)
+        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="email", name="email", placeholder="Email", title="Please write your email", required)
+        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="password", name="password", placeholder="Password", title="Please write password", required)
+        input(class="w-64 h-10 p-4 mb-2 font-roboto", type="password", name="confrimPassword", placeholder="Confrim Password", title="Please write password again to confrim", required)
+        input(class="w-64 h-10 font-roboto", type="submit", value="Sign Up On Movie.ZIP")

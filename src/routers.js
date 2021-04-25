@@ -1,6 +1,6 @@
 import express from "express";
 import routes from "./routes";
-import { home, getLogin, postLogin, logout, search, getSignup, postSignup, library, movieDetail, tvShowDetail, seasonDetail, episodeDetail } from "./controllers";
+import { home, getLogin, postLogin, logout, search, getSignup, postSignup, library, getMovieDetail, postMovieDetail, getTvShowDetail, postTvShowDetail, seasonDetail, episodeDetail } from "./controllers";
 
 const appRouter = express.Router();
 
@@ -21,8 +21,8 @@ function forLoggedOut(req, res, next) {
 };
 
 appRouter.route(routes.home).get(home);
-appRouter.route(routes.movieDetail()).get(movieDetail);
-appRouter.route(routes.tvShowDetail()).get(tvShowDetail);
+appRouter.route(routes.movieDetail()).get(getMovieDetail).post(postMovieDetail);
+appRouter.route(routes.tvShowDetail()).get(getTvShowDetail).post(postTvShowDetail);
 appRouter.route(routes.seasonDetail()).get(seasonDetail);
 appRouter.route(routes.episodeDetail()).get(episodeDetail);
 appRouter.route(routes.search).get(search);
