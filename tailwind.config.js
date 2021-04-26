@@ -103,6 +103,7 @@ module.exports = {
       "80": "20rem",
       "88": "464px",
       "96": "24rem",
+      full: "100%",
       tall: "752px",
     },
     width: {

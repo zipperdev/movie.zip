@@ -6,16 +6,19 @@ html(class="scrollbar-hide", lang="en")
         link(rel="stylesheet", href="/styles/styles.css")
         title #{pageTitle} | #{appName}
     body.relative.bg-gray-100.h-full 
-        aside.sidebar.justify-around.fixed.flex.items-center.top-0.left-0.right-0.z-8.bg-gray-100.bg-opacity-80.shadow-md.backdrop-filter.backdrop-blur-md 
+        aside(class="fixed top-0 left-0 right-0 flex items-center justify-around bg-gray-100 shadow-md sidebar z-8 bg-opacity-80 backdrop-filter backdrop-blur-md md:h-auto md:flex-row xs:h-48 xs:flex xs:flex-col") 
             a(class="logo main home", href=routes.home) 
-                img(class="w-32", src="/contents/short-logo.png", alt="Movie.ZIP")
-            form(class="flex w-1/3 mr-2", action=routes.search, method="get") 
-                input(class="flex-grow h-8 p-2 pt-2 font-sans placeholder-gray-300 rounded-md", type="text", name="keyword", placeholder="Search", title="Please search using the letters included in the ASCII code")
+                img(class="md:w-32 xs:w-24", src="/contents/short-logo.png", alt="Movie.ZIP")
+            form(class="flex w-1/3 mr-2", action=routes.search, method="get")
+                if keyword  
+                    input(class="flex-grow h-8 p-2 pt-2 font-sans placeholder-gray-300 rounded-md", type="text", name="keyword", placeholder="Search", title="Please search using the letters included in the ASCII code", value=keyword)
+                else 
+                    input(class="flex-grow h-8 p-2 pt-2 font-sans placeholder-gray-300 rounded-md", type="text", name="keyword", placeholder="Search", title="Please search using the letters included in the ASCII code")
                 button(class="flex items-center justify-center w-8 h-8", type="submit") 
                     svg(version="1.1", id="Layer_1", xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", width="20px", height="20px", stroke="black", stroke-width="1", viewBox="0 0 119.828 122.88", enable-background="new 0 0 119.828 122.88", xml:space="preserve")
                         g 
                             path(d="M48.319,0C61.662,0,73.74,5.408,82.484,14.152c8.744,8.744,14.152,20.823,14.152,34.166 c0,12.809-4.984,24.451-13.117,33.098c0.148,0.109,0.291,0.23,0.426,0.364l34.785,34.737c1.457,1.449,1.465,3.807,0.014,5.265 c-1.449,1.458-3.807,1.464-5.264,0.015L78.695,87.06c-0.221-0.22-0.408-0.46-0.563-0.715c-8.213,6.447-18.564,10.292-29.814,10.292 c-13.343,0-25.423-5.408-34.167-14.152C5.408,73.741,0,61.661,0,48.318s5.408-25.422,14.152-34.166C22.896,5.409,34.976,0,48.319,0 L48.319,0z M77.082,19.555c-7.361-7.361-17.53-11.914-28.763-11.914c-11.233,0-21.403,4.553-28.764,11.914 C12.194,26.916,7.641,37.085,7.641,48.318c0,11.233,4.553,21.403,11.914,28.764c7.36,7.361,17.53,11.914,28.764,11.914 c11.233,0,21.402-4.553,28.763-11.914c7.361-7.36,11.914-17.53,11.914-28.764C88.996,37.085,84.443,26.916,77.082,19.555 L77.082,19.555z")
-            .link-container.flex.font-roboto 
+            .link-container.flex.font-roboto.items-center 
                 if userLogin 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.home) Home 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.me) Profile 
@@ -23,13 +26,13 @@ html(class="scrollbar-hide", lang="en")
                 else 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.home) Home 
                     a(class="mr-4 transition hover:text-mg-2", href=routes.login) Login 
-                    a(class="transition hover:text-mg-2", href=routes.signup) Sign Up 
+                    a(class="p-1 text-white transition bg-yellow-500 shadow-sm rounded-xl hover:shadow-none hover:text-mg-2 hover:bg-transparent", href=routes.signup) Sign Up 
         #loading-page-element.w-full.h-full.flex.justify-center.items-center.fixed.top-0.left-0.z-10.bg-gray-100 
             h1(class="font-sans") Loading...
             button(id="loading-page-skip", class="absolute p-2 transition-shadow rounded-lg shadow-md bottom-10 right-10 hover:shadow-sm") 
                 h1.font-sans.font-medium Skip
                 p.font-roboto.font-semibold.text-mg-1.text-xs.w-28.text-justify Since the image is being loaded, it may appear blank.
-        div(class="h-full mt-28 content unique") 
+        div(class="mb-6 min-h-96 content unique md:mt-28 xs:mt-56") 
             block content
         script(type='text/javascript').
             const loadingEl = document.querySelector("#loading-page-element");

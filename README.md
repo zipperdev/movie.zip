@@ -9,6 +9,6 @@ to do | status
 Main Config | O
 Main System | O
 Templates | O
-Styling | 95%
+Styling | O
 User System | O
 Store System | O

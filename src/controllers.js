@@ -257,7 +257,8 @@ export const search = (req, res) => {
                                                         return res.render("search", {
                                                             pageTitle: "Search", 
                                                             movies, 
-                                                            tvs: tvShows
+                                                            tvs: tvShows, 
+                                                            keyword
                                                         });
                                                     };
                                                 }).catch((err) => {
@@ -281,34 +282,8 @@ export const search = (req, res) => {
 };
 
 export const me = async (req, res) => {
-    const user = await User.findOne({email: req.session.user.email});
+    const user = await User.findOne({ email: req.session.user.email });
     return res.render("profile", { pageTitle: `${user.username}'s Library`, user });
-};
-
-export const getMeEdit = async (req, res) => {
-    const user = await User.findOne({ email: req.session.user.email });
-    return res.render("editProfile", { pageTitle: "Edit User", user });
-};
-
-export const postMeEdit = async (req, res) => {
-    const { name, username, email, currentPassword } = req.body;
-
-    const user = await User.findOne({ email: req.session.user.email });
-    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!passwordMatch) {
-        return res.status(400).render("editProfile", { 
-            pageTitle: "Edit User", 
-            errorMsg: "Password doesn't match" 
-        });
-    } else {
-        await User.findOneAndUpdate({
-            name, 
-            username, 
-            email, 
-        });
-        req.session.user = user;
-        return res.redirect(routes.me);
-    };
 };
 
 export const getMeDelete = (req, res) => {
@@ -355,14 +330,17 @@ export const postLogin = async (req, res) => {
             });
         } else {
             req.session.user = user;
-            return res.redirect(routes.home);
+            req.session.save(() => {
+                return res.redirect(routes.home);
+            });
         };
     };
 };
 
 export const logout = (req, res) => {
-    req.session.destroy();
-    return res.redirect(routes.home);
+    req.session.destroy(function () {
+        return res.redirect(routes.home);
+    });
 };
 
 export const getSignup = (req, res) => {
