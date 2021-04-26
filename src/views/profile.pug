@@ -5,7 +5,9 @@ block content
     .profile-detail.m-6 
         h1.text-3xl.font-roboto.title=user.username 
         small.text-sm.font-raleway.name=user.name
-        a(class="absolute flex items-center justify-center h-8 text-white bg-red-500 rounded-lg top-4 right-10 w-44 font-roboto", href=routes.meDelete) Delete User 
+        .config-profile.absolute.flex.flex-col.-top-1.right-10
+            a(class="flex items-center justify-center h-8 mb-2 bg-white rounded-lg z-1 w-44 font-roboto", href=routes.meEdit) Edit User 
+            a(class="flex items-center justify-center h-8 text-white bg-red-500 rounded-lg w-44 font-roboto", href=routes.meDelete) Delete User 
     .saved-videos.mx-5.my-8.mt-10
         h1(class="mb-2 font-sans text-2xl font-medium title") Saved Videos
         .movies-container.rounded-2xl.pb-3.flex.overflow-auto.scrollbar-thin.scrollbar-thumb-yellow-400.scrollbar-track-gray-200

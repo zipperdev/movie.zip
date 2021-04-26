@@ -37,7 +37,7 @@ block content
                                 input(type="hidden", name="type", value="save")
                         input(class="block w-16 h-16 font-sans bg-gray-100 rounded-full cursor-pointer", type="submit", value=`${video.hasOwnProperty("video") ? user.includeMovies.includes(video.id) ? "Remove" : "Save" : user.includeTvShows.includes(video.id) ? "Remove" : "Save"}`)
                     else 
-                        input(class="w-16 h-16 font-sans bg-yellow-500 rounded-full cursor-pointer opacity-90 filter", title="If you want to save contents, then sign up", type="submit", value="Save", disabled)
+                        input(class="w-16 h-16 font-sans bg-red-500 rounded-full cursor-pointer opacity-90 filter", title="If you want to save contents, then sign up", type="submit", value="Save", disabled)
                 div(class="mb-1 ml-1 text-details") 
                     small.font-roboto.text-md #{!video.first_air_date && video.release_date ? `Released At : ${video.release_date.split("-").join(".")}` : !video.release_date && video.first_air_date ? `First Aired At : ${video.first_air_date.split("-").join(".")}` : '"Unknown"'} 
                     small.font-roboto.text-md.ml-4 #{video.hasOwnProperty("video") ? "Movie" : "TV"}

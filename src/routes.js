@@ -5,6 +5,7 @@ const TV_SHOW_DETAIL = "/tv-shows/:id";
 const SEASON_DETAIL = "/tv-shows/:tvShow/seasons/:season";
 const EPISODE_DETAIL = "/tv-shows/:tvShow/seasons/:season/episodes/:episode";
 const ME = "/me";
+const ME_EDIT = "/me/edit";
 const ME_DELETE = "/me/delete";
 const LOGIN = "/login";
 const LOGOUT = "/logout";
@@ -42,6 +43,7 @@ const routes = {
         };
     }, 
     me: ME, 
+    meEdit: ME_EDIT, 
     meDelete: ME_DELETE, 
     login: LOGIN, 
     logout: LOGOUT, 

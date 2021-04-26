@@ -24,13 +24,37 @@ export const home = (req, res) => {
                                 .then((res) => res.json())
                                 .then((data) => {
                                     const tTvShows = data;
-                                    return res.render("home", {
-                                        pageTitle: "Home", 
-                                        pMovies: pMovies.results, 
-                                        pTvs: pTvShows.results, 
-                                        tMovies: tMovies.results, 
-                                        tTvs: tTvShows.results, 
-                                    });
+                                    fetch(`${mainUri}/movie/now_playing?api_key=${API_KEY}`)
+                                        .then((res) => res.json())
+                                        .then((data) => {
+                                            const nMovies = data;
+                                            fetch(`${mainUri}/tv/on_the_air?api_key=${API_KEY}`)
+                                                .then((res) => res.json())
+                                                .then((data) => {
+                                                    const nTvShows = data;
+                                                    fetch(`${mainUri}/tv/airing_today?api_key=${API_KEY}`)
+                                                        .then((res) => res.json())
+                                                        .then((data) => {
+                                                            const wTvShows = data;
+                                                            return res.render("home", {
+                                                                pageTitle: "Home", 
+                                                                pMovies: pMovies.results, 
+                                                                pTvs: pTvShows.results, 
+                                                                tMovies: tMovies.results, 
+                                                                tTvs: tTvShows.results, 
+                                                                nMovies: nMovies.results, 
+                                                                nTvs: nTvShows.results, 
+                                                                wTvs: wTvShows.results
+                                                            });
+                                                        }).catch((err) => {
+                                                           return res.status(500).render("error", { pageTitle: "500 Error" });
+                                                        });
+                                                }).catch((err) => {
+                                                    return res.status(500).render("error", { pageTitle: "500 Error" });
+                                                });
+                                        }).catch((err) => {
+                                            return res.status(500).render("error", { pageTitle: "500 Error" });
+                                        });
                                 }).catch((err) => {
                                     return res.status(500).render("error", { pageTitle: "500 Error" });
                                 });
@@ -261,6 +285,32 @@ export const me = async (req, res) => {
     return res.render("profile", { pageTitle: `${user.username}'s Library`, user });
 };
 
+export const getMeEdit = async (req, res) => {
+    const user = await User.findOne({ email: req.session.user.email });
+    return res.render("editProfile", { pageTitle: "Edit User", user });
+};
+
+export const postMeEdit = async (req, res) => {
+    const { name, username, email, currentPassword } = req.body;
+
+    const user = await User.findOne({ email: req.session.user.email });
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+        return res.status(400).render("editProfile", { 
+            pageTitle: "Edit User", 
+            errorMsg: "Password doesn't match" 
+        });
+    } else {
+        await User.findOneAndUpdate({
+            name, 
+            username, 
+            email, 
+        });
+        req.session.user = user;
+        return res.redirect(routes.me);
+    };
+};
+
 export const getMeDelete = (req, res) => {
     return res.render("deleteProfile", { pageTitle: "Delete User" });
 };
@@ -341,13 +391,14 @@ export const postSignup = async (req, res) => {
                     errorMsg: "This email is already taken"
                 });
             } else {
-                await User.create({
+                const user = await User.create({
                     name, 
                     username, 
                     email, 
                     password
                 });
-                return res.redirect(routes.login);
+                req.session.user = user;
+                return res.redirect(routes.home);
             };
         };
     }
