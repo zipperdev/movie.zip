@@ -104,12 +104,12 @@ export const postMovieDetail = async (req, res) => {
                 const includeMovies = user.includeMovies;
                 if (type === "save") {
                     if (!includeMovies.includes(movie.id)) {
-                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeMovies: movie.id, library: movie } });
+                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeMovies: movie.id, library: movie } }).exec();
                     };
                     return res.redirect(routes.home);
                 } else if (type === "remove") {
                     if (includeMovies.includes(movie.id)) {
-                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeMovies: movie.id, library: { id: movie.id } } });
+                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeMovies: movie.id, library: { id: movie.id } } }).exec();
                     };
                     return res.redirect(routes.home);
                 };
@@ -154,12 +154,12 @@ export const postTvShowDetail = async (req, res) => {
                 const includeTvShows = user.includeTvShows;
                 if (type === "save") {
                     if (!includeTvShows.includes(tvShow.id)) {
-                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeTvShows: tvShow.id, library: tvShow } });
+                        await User.findOneAndUpdate({ email: user.email }, { $push: { includeTvShows: tvShow.id, library: tvShow } }).exec();
                     };
                     return res.redirect(routes.home);
                 } else if (type === "remove") {
                     if (includeTvShows.includes(tvShow.id)) {
-                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeTvShows: tvShow.id, library: { id: tvShow.id } } });
+                        await User.findOneAndUpdate({ email: user.email }, { $pull: { includeTvShows: tvShow.id, library: { id: tvShow.id } } }).exec();
                     };
                     return res.redirect(routes.home);
                 };
